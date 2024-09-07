@@ -1,2 +1,8 @@
 Don't Block the Event Loop (or the Worker Pool)
 
+Node.js is fast when work associated with each client at any given time is small.
+Node.js uses small number of threads to handle many clients. In Node.js there are two types of threads: one Event Loop (aka the main loop, main thread, event thread, etc.), and a pool of k Workers in a worker pool (aka the threadpool).
+
+Two motivations for blocking neither the Event Loop nor the Worker Pool:
+1. Performance: If you regularly perform heavyweight activity on either type of thread, the throughput (requests/second) of your server will suffer.
+2. Security: If it is possible that for certain input one of your threads might block, a malicious client could submit this "evil input", make your thread block, and keep then from working on other clients. This would be a Denial of Service attack.
